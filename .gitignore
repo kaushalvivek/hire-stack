@@ -1,0 +1,12 @@
+# Directories to ignore
+.git/
+env/
+files/
+
+# Python cache directories (at any level)
+**/__pycache__/
+
+# Files to ignore
+config.yaml
+dump.rdb
+.env
