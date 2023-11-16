@@ -8,6 +8,7 @@ Approach:
 '''
 import time
 import redis
+import getpass
 import pandas as pd
 from src.config import FetcherConfig
 from selenium import webdriver
@@ -47,7 +48,7 @@ class ResumeFetcher:
             EC.element_to_be_clickable((By.ID, "user_password"))
         )
 
-        password_field.send_keys(self.config.password)
+        password_field.send_keys(getpass.getpass('Enter your greenhouse password: '))
 
         # Find and click the "Keep me signed in" checkbox
         keep_me_signed_in_checkbox = WebDriverWait(driver, 10).until(

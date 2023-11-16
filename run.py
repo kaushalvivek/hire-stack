@@ -3,6 +3,7 @@ import src.utils
 from src.cache import EvaluationCache
 from src.evaluator import ResumeEvaluator
 from src.fetcher import ResumeFetcher
+from src.mailer import Mailer
 
 @click.group()
 def cli():
@@ -38,9 +39,17 @@ def fetch():
     fetcher = ResumeFetcher()
     fetcher.fetch()
 
+@click.command(name="reach-out")
+@click.option('--candidates', required=True, help="path of Greenhouse export CSV to get candidates from")
+def reach_out(candidates):
+    """Reach out to shortlisted candidates with a request to meet."""
+    mailer = Mailer()
+    mailer.trigger(candidates)    
+
 cli.add_command(clear_cache)
 cli.add_command(sample)
 cli.add_command(evaluate)
+cli.add_command(reach_out)
 
 if __name__ == '__main__':
     cli()
