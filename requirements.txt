@@ -8,16 +8,13 @@ async-timeout==4.0.3
 attrs==23.1.0
 backcall==0.2.0
 certifi==2023.7.22
-cffi @ file:///private/tmp/cffi-20231014-5567-1hyue8f/cffi-1.16.0
 charset-normalizer==3.3.2
 click==8.1.7
 comm==0.1.4
-cryptography @ file:///private/tmp/python-cryptography-20231024-6375-1k9sys9/cryptography-41.0.5
 dataclasses-json==0.6.2
 debugpy==1.8.0
 decorator==5.1.1
 distro==1.8.0
-docutils @ file:///private/tmp/docutils-20231015-5454-w1xze4/docutils-0.20.1
 executing==2.0.0
 frozenlist==1.4.0
 h11==0.14.0
@@ -56,7 +53,6 @@ protobuf==4.21.9
 psutil==5.9.6
 ptyprocess==0.7.0
 pure-eval==0.2.2
-pycparser @ file:///private/tmp/pycparser-20231013-5787-1anpge2/pycparser-2.21
 pydantic==2.4.2
 pydantic_core==2.10.1
 Pygments==2.16.1
@@ -82,7 +78,6 @@ traitlets==5.11.2
 trio==0.23.1
 trio-websocket==0.11.1
 typing-inspect==0.9.0
-typing_extensions @ file:///private/tmp/python-typing-extensions-20231008-5501-1ralzsu/typing_extensions-4.8.0
 tzdata==2023.3
 urllib3==2.0.7
 wcwidth==0.2.8
