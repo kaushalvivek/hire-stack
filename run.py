@@ -28,9 +28,10 @@ def sample(source, destination, rate):
     click.echo(f"{rate*100}% of files from {source} copied to {destination}")
 
 @click.command(name="evaluate")
-def evaluate():
+@click.option('--use-cache', is_flag=True, help='Enable caching.')
+def evaluate(use_cache):
     """Evaluate resumes. Ensure that config.yaml is correctly populated before running evaluations."""
-    evaluator = ResumeEvaluator()
+    evaluator = ResumeEvaluator(use_cache)
     evaluator.evaluate()
 
 @click.command(name="fetch")

@@ -28,11 +28,14 @@ import src.utils as utils
 from src.cache import EvaluationCache
 
 class ResumeEvaluator:
-    def __init__(self):
+    def __init__(self, use_cache=False):
         self.run_id = datetime.now().timestamp()
-        self.cache = EvaluationCache()
         self.logger = utils.setup_logging(f"files/log/{self.run_id}.log")
         self.config = EvaluationConfig()
+        self.cache = None
+        if use_cache:
+            self.cache = EvaluationCache()
+
     
     def evaluate(self):
         print("evaluating candidates ...")
@@ -47,7 +50,10 @@ class ResumeEvaluator:
         resume_files = utils.get_all_files_in(self.config.resume_folder)
         for resume_file in tqdm(resume_files, desc="Processing"):
             try:
-                eval = self.cache.evaluate_with_cache(resume_file, self._evaluate_candidate_resume)
+                if self.cache:
+                    eval = self.cache.evaluate_with_cache(resume_file, self._evaluate_candidate_resume)
+                else:
+                    eval = self._evaluate_candidate_resume(resume_file)
                 evaluations.append(eval)
             except Exception as e:
                 self.logger.error(e, resume_file)
