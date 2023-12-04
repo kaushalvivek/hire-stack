@@ -25,6 +25,6 @@ class FetcherConfig:
     def __init__(self):
         f = open('config.yaml', 'r')
         config = yaml.safe_load(f)
-        self.email = config['greenhouse.email']
-        self.candidate_file = config['greenhouse.candidate_file']
+        self.email = config['greenhouse']['email']
+        self.candidate_file = config['greenhouse']['candidate_file']
 
