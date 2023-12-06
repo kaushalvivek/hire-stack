@@ -27,4 +27,5 @@ class FetcherConfig:
         config = yaml.safe_load(f)
         self.email = config['greenhouse']['email']
         self.candidate_file = config['greenhouse']['candidate_file']
+        self.resume_folder = config['resume-folder']
 

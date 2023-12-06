@@ -34,6 +34,13 @@ class ResumeFetcher:
             if is_headless:
                 chrome_options.add_argument("--headless")
                 self.is_headless = True
+                prefs = {
+                "download.default_directory": self.config.resume_folder,
+                "download.prompt_for_download": False,
+                "download.directory_upgrade": True,
+                "safebrowsing.enabled": True
+                }
+                chrome_options.add_experimental_option("prefs", prefs)
             self.driver = webdriver.Chrome(options=chrome_options)
         else:
             self.driver = webdriver.Safari()
@@ -105,7 +112,7 @@ class ResumeFetcher:
 
         # Close the new tab
         time.sleep(2)
-        if self.browser == "chrome" and not self.is_headless:
+        if self.browser == "safari" or (self.browser == "chrome" and self.is_headless):
             self.driver.close()
 
         # Switch back to the original window
