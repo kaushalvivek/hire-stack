@@ -124,11 +124,14 @@ class ResumeFetcher:
         self._sign_in(self.driver)
         candidates = self._get_candidates()
         for candidate in tqdm(candidates):
-            if self.cache is not None:
-                if self.cache.get(candidate['Candidate ID']) is not None:
-                    continue
-                self._fetch_resume(candidate)
-                self.cache.set(candidate['Candidate ID'], "true")
-            else:
-                self._fetch_resume(candidate)
+            try:
+                if self.cache is not None:
+                    if self.cache.get(candidate['Candidate ID']) is not None:
+                        continue
+                    self._fetch_resume(candidate)
+                    self.cache.set(candidate['Candidate ID'], "true")
+                else:
+                    self._fetch_resume(candidate)
+            except:
+                continue
         self.driver.close()
