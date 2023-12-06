@@ -35,9 +35,10 @@ def evaluate(use_cache):
     evaluator.evaluate()
 
 @click.command(name="fetch")
-def fetch():
+@click.option('--use-cache', is_flag=True, help='Enable caching.')
+def fetch(use_cache):
     """Fetches resumes. Ensure that config.yaml is correctly populated before triggering a fetch."""
-    fetcher = ResumeFetcher()
+    fetcher = ResumeFetcher(use_cache)
     fetcher.fetch()
 
 @click.command(name="reach-out")
@@ -51,6 +52,7 @@ cli.add_command(clear_cache)
 cli.add_command(sample)
 cli.add_command(evaluate)
 cli.add_command(reach_out)
+cli.add_command(fetch)
 
 if __name__ == '__main__':
     cli()

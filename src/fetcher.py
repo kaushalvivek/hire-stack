@@ -19,10 +19,14 @@ from selenium.webdriver.support import expected_conditions as EC
 BASE_URL="https://app3.greenhouse.io"
 
 class ResumeFetcher:
-    def __init__(self):
+    def __init__(self, use_cache):
         self.config = FetcherConfig()
-        self.cache = redis.Redis(host='localhost', port=6379, db=0)
+        if use_cache:
+            self.cache = redis.Redis(host='localhost', port=6379, db=0)
+        else:
+            self.cache = None
         self.driver = webdriver.Safari()
+        self.password = getpass.getpass('Enter your greenhouse password: ')
 
     def _sign_in(self, driver):
         driver.get(f'{BASE_URL}/dashboard')
@@ -48,7 +52,7 @@ class ResumeFetcher:
             EC.element_to_be_clickable((By.ID, "user_password"))
         )
 
-        password_field.send_keys(getpass.getpass('Enter your greenhouse password: '))
+        password_field.send_keys(self.password)
 
         # Find and click the "Keep me signed in" checkbox
         keep_me_signed_in_checkbox = WebDriverWait(driver, 10).until(
@@ -65,7 +69,7 @@ class ResumeFetcher:
         return
 
     def _get_candidates(self):
-        df = pd.read_csv(self.config.candidates_file)
+        df = pd.read_csv(self.config.candidate_file)
         return df.to_dict(orient='records')
 
     def _fetch_resume(self, candidate):
@@ -99,8 +103,11 @@ class ResumeFetcher:
         self._sign_in(self.driver)
         candidates = self._get_candidates()
         for candidate in candidates:
-            if self.cache.get(candidate['Candidate ID']) is not None:
-                continue
-            self._fetch_resume(candidate)
-            self.cache.set(candidate['Candidate ID'], "true")
+            if self.cache is not None:
+                if self.cache.get(candidate['Candidate ID']) is not None:
+                    continue
+                self._fetch_resume(candidate)
+                self.cache.set(candidate['Candidate ID'], "true")
+            else:
+                self._fetch_resume(candidate)
         self.driver.close()
