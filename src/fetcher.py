@@ -6,6 +6,7 @@ Approach:
 -   open resume
 -   download resume
 '''
+import os
 import time
 import redis
 import getpass
@@ -89,7 +90,17 @@ class ResumeFetcher:
         return
 
     def _get_candidates(self):
-        df = pd.read_csv(self.config.candidate_file)
+        # Extract the file extension
+        _, file_extension = os.path.splitext(self.config.candidate_file)
+
+        # Check the file extension and read the file accordingly
+        if file_extension in ['.csv']:
+            df = pd.read_csv(self.config.candidate_file)
+        elif file_extension in ['.xls', '.xlsx']:
+            df = pd.read_excel(self.config.candidate_file)
+        else:
+            raise ValueError("Unsupported file format")
+
         return df.to_dict(orient='records')
 
     def _fetch_resume(self, candidate):

@@ -44,7 +44,7 @@ def fetch(use_cache, headless, browser):
     fetcher.fetch()
 
 @click.command(name="reach-out")
-@click.option('--candidates', required=True, help="path of Greenhouse export CSV to get candidates from")
+@click.option('--candidates', required=True, help="path of Greenhouse export CSV/Excel to get candidates from")
 def reach_out(candidates):
     """Reach out to shortlisted candidates with a request to meet."""
     mailer = Mailer()
