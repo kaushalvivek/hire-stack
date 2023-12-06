@@ -36,9 +36,11 @@ def evaluate(use_cache):
 
 @click.command(name="fetch")
 @click.option('--use-cache', is_flag=True, help='Enable caching.')
-def fetch(use_cache):
+@click.option('--headless', is_flag=True, help='Do you want the browser to run in the background?')
+@click.option('--browser', help="What browser do you want to use? Chrome and Safari supported")
+def fetch(use_cache, headless, browser):
     """Fetches resumes. Ensure that config.yaml is correctly populated before triggering a fetch."""
-    fetcher = ResumeFetcher(use_cache)
+    fetcher = ResumeFetcher(use_cache, browser, headless)
     fetcher.fetch()
 
 @click.command(name="reach-out")

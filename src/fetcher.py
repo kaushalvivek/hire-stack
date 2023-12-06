@@ -10,25 +10,37 @@ import time
 import redis
 import getpass
 import pandas as pd
+from tqdm import tqdm
 from src.config import FetcherConfig
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.chrome.options import Options
 
 BASE_URL="https://app3.greenhouse.io"
 
 class ResumeFetcher:
-    def __init__(self, use_cache):
+    def __init__(self, use_cache, browser="chrome", is_headless=True):
         self.config = FetcherConfig()
         if use_cache:
             self.cache = redis.Redis(host='localhost', port=6379, db=0)
         else:
             self.cache = None
-        self.driver = webdriver.Safari()
         self.password = getpass.getpass('Enter your greenhouse password: ')
+        self.browser = browser
+        if self.browser == "chrome":
+            chrome_options = Options()
+            if is_headless:
+                chrome_options.add_argument("--headless")
+                self.is_headless = True
+            self.driver = webdriver.Chrome(options=chrome_options)
+        else:
+            self.driver = webdriver.Safari()
+        
 
     def _sign_in(self, driver):
+        print("Initiating sign in...")
         driver.get(f'{BASE_URL}/dashboard')
         time.sleep(3)
         email_field = driver.find_element(By.ID, 'user_email')
@@ -66,6 +78,7 @@ class ResumeFetcher:
         )
         sign_in_button.click()
         time.sleep(3)
+        print("Successfully signed in!")
         return
 
     def _get_candidates(self):
@@ -92,7 +105,8 @@ class ResumeFetcher:
 
         # Close the new tab
         time.sleep(2)
-        self.driver.close()
+        if self.browser == "chrome" and not self.is_headless:
+            self.driver.close()
 
         # Switch back to the original window
         self.driver.switch_to.window(original_window)
@@ -102,7 +116,7 @@ class ResumeFetcher:
     def fetch(self):
         self._sign_in(self.driver)
         candidates = self._get_candidates()
-        for candidate in candidates:
+        for candidate in tqdm(candidates):
             if self.cache is not None:
                 if self.cache.get(candidate['Candidate ID']) is not None:
                     continue
