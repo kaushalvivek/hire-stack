@@ -1,5 +1,5 @@
 # Hire Stack: an AI-powered hiring assistant
-![logo](https://vivek-public-cdn.s3.us-west-2.amazonaws.com/hire-stack.png)
+<img src="https://vivek-public-cdn.s3.us-west-2.amazonaws.com/hire-stack.png" width="50">
 
 
 ## Quick start
