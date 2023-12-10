@@ -10,9 +10,11 @@ Moreover, you can also use Hire Stack to reach out to candidates through an auto
 
 ## Setup
 ### Set up the environment
-1. Set-up local environment and activate it.
+1. Set-up local environment and activate it.  
+   
    `python3 -m venv env && source env/bin/activate`
-2. Install dependencies.
+2. Install dependencies.  
+   
    `pip3 install -r requirements.txt`
 ### Populating the config
 
