@@ -7,7 +7,19 @@ Reading through hundreds and thousands of resumes to find relevant candidates is
 
 Moreover, you can also use Hire Stack to reach out to candidates through an automated email, and fetch resumes from Greenhouse, if that's your job portal.
 
+
+## Setup
+### Set up the environment
+1. Set-up local environment and activate it.
+   `python3 -m venv env && source env/bin/activate`
+2. Install dependencies.
+   `pip3 install -r requirements.txt`
+### Populating the config
+
+### (optional) Cache
+
 ## Usage
 ### Evaluating Resumes
+
 ### Fetching Resumes (Greenhouse)
 ### Reaching out to candidates
