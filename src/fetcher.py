@@ -124,7 +124,10 @@ class ResumeFetcher:
         # Close the new tab
         time.sleep(2)
         if self.browser == "safari" or (self.browser == "chrome" and self.is_headless):
-            self.driver.close()
+            try:
+                self.driver.close()
+            except Exception:
+                pass
 
         # Switch back to the original window
         self.driver.switch_to.window(original_window)

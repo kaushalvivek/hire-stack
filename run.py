@@ -48,7 +48,7 @@ def fetch(use_cache, headless, browser):
 def reach_out(candidates):
     """Reach out to shortlisted candidates with a request to meet."""
     mailer = Mailer()
-    mailer.trigger(candidates)    
+    mailer.trigger(candidates)
 
 cli.add_command(clear_cache)
 cli.add_command(sample)
